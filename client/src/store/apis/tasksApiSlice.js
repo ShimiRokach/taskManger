@@ -34,8 +34,7 @@ const tasksApiSlice = createApi({
                         method: 'POST',
                         body: {
                             userId: user._id,
-                            taskName: task.taskName,
-                            status: task.status
+                            taskName: task.taskName
                         }
                     };
                 }
@@ -48,7 +47,19 @@ const tasksApiSlice = createApi({
                 query: (task) => {
                     return {
                         url: `/${task._id}`,
-                        method: 'PUT',
+                        method: 'PUT'
+                    };
+                }
+            }),
+
+            deleteTask: builder.mutation({
+                invalidatesTags: (result, error, task) => {
+                    return [{ type: 'Task', id: task._id }];
+                },
+                query: (task) => {
+                    return {
+                        url: `/${task._id}`,
+                        method: 'DELETE'
                     };
                 }
             })
@@ -59,6 +70,7 @@ const tasksApiSlice = createApi({
 export const {
     useFetchTasksQuery,
     useAddTaskMutation,
-    useUpdateTaskMutation
+    useUpdateTaskMutation,
+    useDeleteTaskMutation
 } = tasksApiSlice;
 export { tasksApiSlice };

@@ -27,5 +27,6 @@ export {
 export {
     useFetchTasksQuery,
     useAddTaskMutation,
-    useUpdateTaskMutation
+    useUpdateTaskMutation,
+    useDeleteTaskMutation
 } from './apis/tasksApiSlice';

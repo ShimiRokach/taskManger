@@ -1,11 +1,11 @@
 import express from "express";
-import { getTasks, createTask, updateTask } from "../controllers/task.js";
+import { getTasks, createTask, updateTask, deleteTask } from "../controllers/task.js";
 
 const router = express.Router();
 
 router.get("/:userId", getTasks);
 router.post("/", createTask);
 router.put("/:taskId", updateTask);
-//router.delete("/deleteTask", deleteTask);
+router.delete("/:taskId", deleteTask);
 
 export default router;

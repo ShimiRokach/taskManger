@@ -1,16 +1,17 @@
 import { InputBase, Button, Box, Typography } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { useFetchTasksQuery, useAddTaskMutation, useUpdateTaskMutation } from '../../store';
+import { useFetchTasksQuery, useAddTaskMutation, useUpdateTaskMutation, useDeleteTaskMutation } from '../../store';
 
 
 const MyComponent = () => {
 
     const { user } = useSelector((state) => state.auth);
 
-    const { data, error, isFetching } = useFetchTasksQuery(user);
+    const { data, isFetching } = useFetchTasksQuery(user);
     const [addTask] = useAddTaskMutation();
     const [updateStatus] = useUpdateTaskMutation();
+    const [deleteTask] = useDeleteTaskMutation();
     const [post, setPost] = useState("");
 
 
@@ -22,6 +23,10 @@ const MyComponent = () => {
 
     const handleStatusChange = async (task) => {
         updateStatus(task);
+    };
+
+    const handleDelete = async (task) => {
+        deleteTask(task);
     };
 
     return (
@@ -63,17 +68,28 @@ const MyComponent = () => {
                             <Box
                                 key={task._id}
                                 border="1px solid #ccc"
-                                borderRadius="10px"
                                 padding="1rem"
-                                display="flex"
-                                justifyContent="space-between"
+                                display="grid"
+                                gridTemplateColumns="3fr 1fr 1fr"
                             >
                                 <Typography >
                                     {task.taskName}
                                 </Typography>
-                                <Typography onClick={() => handleStatusChange(task)}>
+                                <Button
+                                    onClick={() => handleStatusChange(task)}
+                                    sx={{
+                                        justifyContent: "flex-start"
+                                    }}>
                                     {task.status ? 'DONE' : 'NOT DONE'}
-                                </Typography>
+                                </Button>
+                                <Button
+                                    onClick={() => handleDelete(task)}
+                                    sx={{
+                                        color: "red"
+                                    }}
+                                >
+                                    DELETE
+                                </Button >
                             </Box>
                         )
                     )}

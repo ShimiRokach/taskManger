@@ -2,15 +2,19 @@ import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import authReducer from './slices/authSlice';
 import { usersApiSlice } from './apis/usersApiSlice';
+import { tasksApiSlice } from './apis/tasksApiSlice';
 
 
 export const store = configureStore({
     reducer: {
         [usersApiSlice.reducerPath]: usersApiSlice.reducer,
-        auth: authReducer,
+        [tasksApiSlice.reducerPath]: tasksApiSlice.reducer,
+        auth: authReducer
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(usersApiSlice.middleware),
+        getDefaultMiddleware()
+            .concat(usersApiSlice.middleware)
+            .concat(tasksApiSlice.middleware),
     devTools: true,
 });
 
@@ -20,3 +24,8 @@ export {
     useLoginMutation,
     useRegisterMutation
 } from './apis/usersApiSlice';
+export {
+    useFetchTasksQuery,
+    useAddTaskMutation,
+    useUpdateTaskMutation
+} from './apis/tasksApiSlice';

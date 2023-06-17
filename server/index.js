@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import cors from 'cors';
 import authRoutes from "./routes/auth.js";
+import taskRoutes from "./routes/task.js";
 
 /* CONFIGURATIONS */
 dotenv.config();
@@ -14,6 +15,7 @@ app.use(cors());
 
 /* ROUTES */
 app.use("/auth", authRoutes);
+app.use("/tasks", taskRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 3001;

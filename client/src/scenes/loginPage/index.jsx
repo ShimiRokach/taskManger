@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useRegisterMutation, useLoginMutation } from '../../store'
 import { setCredentials } from '../../store/slices/authSlice';
@@ -39,7 +39,7 @@ const initialValuesLogin = {
 const Form = () => {
     const [pageType, setPageType] = useState("login");
     const dispatch = useDispatch();
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const isLogin = pageType === "login";
     const isRegister = pageType === "register";
@@ -48,17 +48,27 @@ const Form = () => {
 
 
     const register = async (values, onSubmitProps) => {
-        const res = await registerUser(values).unwrap();
-        onSubmitProps.resetForm();
-        if (res) {
+        try {
+            const res = await registerUser(values).unwrap();
+            onSubmitProps.resetForm();
             setPageType("login");
+
+        }
+        catch (err) {
+            console.log(err);
         }
     };
 
     const login = async (values, onSubmitProps) => {
-        const res = await loginUser(values).unwrap();
-        onSubmitProps.resetForm();
-        dispatch(setCredentials(res));
+        try {
+            const res = await loginUser(values).unwrap();
+            onSubmitProps.resetForm();
+            dispatch(setCredentials(res));
+            navigate("/home");
+        }
+        catch (err) {
+            console.log(err);
+        }
 
     };
 
